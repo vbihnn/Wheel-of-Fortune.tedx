@@ -1,0 +1,2391 @@
+<!DOCTYPE html>
+<html>
+
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wheel of Fortune</title>
+
+  <style>
+    /* =====================================================
+   RESET
+===================================================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+html,
+body{
+    width:100%;
+    min-height:100%;
+}
+
+
+/* =====================================================
+   BODY
+===================================================== */
+
+body{
+
+    font-family:'Cormorant Garamond',serif;
+
+    background:#050505;
+
+    color:#F5F5F5;
+
+    overflow-x:hidden;
+    overflow-y:auto;
+
+    position:relative;
+
+    line-height:1.6;
+
+}
+
+
+/* =====================================================
+   BACKGROUND
+===================================================== */
+
+#background{
+
+    position:fixed;
+
+    inset:0;
+
+    z-index:-100;
+
+    overflow:hidden;
+
+    background:
+
+        radial-gradient(circle at top,
+        rgba(170,25,35,.22),
+        transparent 38%),
+
+        radial-gradient(circle at bottom,
+        rgba(120,10,20,.16),
+        transparent 42%),
+
+        linear-gradient(
+            to bottom,
+            #010101,
+            #040404 35%,
+            #070707 70%,
+            #090909
+        );
+
+}
+
+
+/* =====================================================
+   STARS
+===================================================== */
+
+#stars{
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.85;
+
+    background-image:
+
+        radial-gradient(circle,#ffffff 1px,transparent 1px),
+
+        radial-gradient(circle,rgba(255,255,255,.7) 1px,transparent 1px),
+
+        radial-gradient(circle,rgba(255,255,255,.45) .8px,transparent .8px);
+
+    background-size:
+
+        170px 170px,
+
+        260px 260px,
+
+        340px 340px;
+
+    animation:
+
+        starsTwinkle 7s ease-in-out infinite alternate;
+
+}
+
+
+/* =====================================================
+   EXTRA STAR LAYER
+===================================================== */
+
+#stars::before{
+
+    content:"";
+
+    position:absolute;
+
+    inset:0;
+
+    opacity:.45;
+
+    background-image:
+
+        radial-gradient(circle,#ffffff 1px,transparent 1px);
+
+    background-size:520px 520px;
+
+    animation:
+
+        starsFloat 80s linear infinite;
+
+}
+
+
+/* =====================================================
+   GLOW
+===================================================== */
+
+#glow{
+
+    position:absolute;
+
+    left:50%;
+
+    top:42%;
+
+    transform:translate(-50%,-50%);
+
+    width:900px;
+
+    height:900px;
+
+    border-radius:50%;
+
+    pointer-events:none;
+
+    background:
+
+        radial-gradient(circle,
+
+        rgba(226,43,30,.16),
+
+        rgba(226,43,30,.08),
+
+        transparent 72%);
+
+    filter:blur(110px);
+
+    animation:
+
+        glowPulse 8s ease-in-out infinite;
+
+}
+
+
+/* =====================================================
+   MAGIC PARTICLES
+===================================================== */
+
+#magicParticles{
+
+    position:absolute;
+
+    inset:0;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+}
+
+
+/* =====================================================
+   HEADER
+===================================================== */
+
+header{
+
+    position:relative;
+
+    z-index:10;
+
+    text-align:center;
+
+    padding-top:45px;
+
+    padding-bottom:15px;
+
+}
+
+
+header h1{
+
+    font-family:'Cinzel',serif;
+
+    font-size:58px;
+
+    letter-spacing:5px;
+
+    font-weight:700;
+
+    color:#FFFFFF;
+
+    text-shadow:
+
+        0 0 12px rgba(255,255,255,.18),
+
+        0 0 35px rgba(226,43,30,.18);
+
+}
+
+
+header p{
+
+    margin-top:14px;
+
+    font-size:23px;
+
+    color:#D6D6D6;
+
+    letter-spacing:1px;
+
+    opacity:.9;
+
+}
+
+
+/* =====================================================
+   MAIN
+===================================================== */
+
+main{
+
+    width:100%;
+
+    min-height:calc(100vh - 180px);
+
+    display:flex;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:flex-start;
+
+    padding:
+
+        20px
+        30px
+        100px;
+
+}
+
+
+/* =====================================================
+   SECTIONS
+===================================================== */
+
+section{
+
+    width:100%;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+/* =====================================================
+   HIDDEN
+===================================================== */
+
+.hidden{
+
+    display:none !important;
+
+}
+
+
+/* =====================================================
+   GLOBAL ANIMATIONS
+===================================================== */
+
+@keyframes starsTwinkle{
+
+    from{
+
+        opacity:.35;
+
+    }
+
+    to{
+
+        opacity:.9;
+
+    }
+
+}
+
+
+@keyframes starsFloat{
+
+    from{
+
+        transform:translateY(0);
+
+    }
+
+    to{
+
+        transform:translateY(-520px);
+
+    }
+
+}
+
+
+@keyframes glowPulse{
+
+    0%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(.95);
+
+        opacity:.45;
+
+    }
+
+    50%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(1.08);
+
+        opacity:.9;
+
+    }
+
+    100%{
+
+        transform:
+        translate(-50%,-50%)
+        scale(.95);
+
+        opacity:.45;
+
+    }
+
+}
+/* =====================================================
+   DECK SECTION
+===================================================== */
+
+#deckSection{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+    margin-top:20px;
+
+    transition:opacity .6s ease;
+
+}
+
+
+/* =====================================================
+   DECK
+===================================================== */
+
+#deckContainer{
+
+    position:relative;
+
+    width:210px;
+
+    height:330px;
+
+    cursor:pointer;
+
+    animation:deckFloat 4s ease-in-out infinite;
+
+    transition:
+        transform .35s ease,
+        filter .35s ease;
+
+}
+
+#deckContainer:hover{
+
+    transform:scale(1.04);
+
+    filter:drop-shadow(0 0 24px rgba(226,43,30,.25));
+
+}
+
+.deckCard{
+
+    position:absolute;
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+    border-radius:18px;
+
+    user-select:none;
+
+    pointer-events:none;
+
+    box-shadow:
+
+        0 20px 40px rgba(0,0,0,.45),
+
+        0 0 25px rgba(255,255,255,.05);
+
+}
+
+#deckBack1{
+
+    transform:
+        translate(-10px,8px)
+        rotate(-7deg);
+
+}
+
+#deckBack2{
+
+    transform:
+        translate(8px,4px)
+        rotate(5deg);
+
+}
+
+#deckBack3{
+
+    z-index:5;
+
+}
+
+
+/* =====================================================
+   SPREAD
+===================================================== */
+
+#spreadSection{
+
+    width:100%;
+
+    min-height:420px;
+
+    display:none;
+
+    justify-content:center;
+
+    align-items:center;
+
+    position:relative;
+
+    margin-top:35px;
+
+    perspective:1600px;
+
+}
+
+
+/* =====================================================
+   TAROT CARD
+===================================================== */
+
+.tarot-card{
+    width:170px;
+    height:290px;
+    position:absolute;
+    cursor:pointer;
+    transform-style:preserve-3d;
+
+    transition:
+        transform .6s cubic-bezier(.2,.8,.2,1),
+        opacity .45s ease,
+        filter .35s ease;
+}
+
+.card-inner{
+    position:relative;
+    width:100%;
+    height:100%;
+    transform-style:preserve-3d;
+}
+
+.card-front,
+.card-back{
+
+    position:absolute;
+
+    inset:0;
+
+    width:100%;
+    height:100%;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    backface-visibility:hidden;
+
+}
+
+.card-front{
+
+    transform:rotateY(180deg);
+
+}
+
+.card-front img,
+.card-back img{
+
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+
+}
+
+    transition:
+
+        transform .6s cubic-bezier(.2,.8,.2,1),
+
+        opacity .45s ease,
+
+        filter .35s ease;
+
+}
+
+
+/* =====================================================
+   CARD INNER
+===================================================== */
+
+.card-inner{
+
+    width:100%;
+
+    height:100%;
+
+    position:relative;
+
+    transform-style:preserve-3d;
+
+    transition:transform .65s ease;
+
+}
+
+
+/* =====================================================
+   FLIP
+===================================================== */
+
+.tarot-card.flip .card-inner{
+
+    transform:rotateY(180deg);
+
+}
+
+
+/* =====================================================
+   FRONT / BACK
+===================================================== */
+
+.card-front,
+.card-back{
+
+    position:absolute;
+
+    inset:0;
+
+    border-radius:18px;
+
+    overflow:hidden;
+
+    backface-visibility:hidden;
+
+    box-shadow:
+
+        0 18px 40px rgba(0,0,0,.45);
+
+}
+
+.card-back{
+
+    background:#111;
+
+}
+
+.card-back img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+.card-front{
+
+    transform:rotateY(180deg);
+
+    background:#111;
+
+}
+
+.card-front img{
+
+    width:100%;
+
+    height:100%;
+
+    object-fit:cover;
+
+}
+
+
+/* =====================================================
+   HOVER
+===================================================== */
+
+.tarot-card:hover{
+
+    transform:
+
+        translateX(var(--x))
+
+        translateY(-28px)
+
+        rotate(var(--r))
+
+        scale(1.05);
+
+    z-index:50;
+
+    filter:drop-shadow(0 0 18px rgba(226,43,30,.35));
+
+}
+
+
+/* =====================================================
+   FAN POSITIONS
+===================================================== */
+
+.card0{
+
+    --x:-360px;
+
+    --r:-22deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+.card1{
+
+    --x:-240px;
+
+    --r:-15deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+.card2{
+
+    --x:-120px;
+
+    --r:-8deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+.card3{
+
+    --x:0px;
+
+    --r:0deg;
+
+    transform:
+        translateX(var(--x));
+
+    z-index:10;
+
+}
+
+.card4{
+
+    --x:120px;
+
+    --r:8deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+.card5{
+
+    --x:240px;
+
+    --r:15deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+.card6{
+
+    --x:360px;
+
+    --r:22deg;
+
+    transform:
+        translateX(var(--x))
+        rotate(var(--r));
+
+}
+
+
+/* =====================================================
+   FADE OTHER CARDS
+===================================================== */
+
+.tarot-card.fade{
+
+    opacity:.08;
+
+    filter:blur(2px);
+
+    pointer-events:none;
+
+    transition:.45s;
+
+}
+
+
+/* =====================================================
+   SELECTED CARD
+===================================================== */
+
+.tarot-card.selected{
+
+    position:fixed !important;
+
+    z-index:9999;
+
+    transition:
+
+        left .8s ease,
+
+        top .8s ease,
+
+        transform .5s ease;
+
+}
+
+
+/* =====================================================
+   IMAGE
+===================================================== */
+
+.card-front img,
+.card-back img{
+
+    display:block;
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:1200px){
+
+    .card0{--x:-260px;}
+    .card1{--x:-170px;}
+    .card2{--x:-85px;}
+    .card4{--x:85px;}
+    .card5{--x:170px;}
+    .card6{--x:260px;}
+
+
+
+    .tarot-card{
+
+    position:absolute;
+
+    left:50%;
+
+    top:40px;
+
+    margin-left:-85px;
+
+    width:170px;
+
+    height:290px;
+
+    border-radius:18px;
+
+    cursor:pointer;
+
+    opacity:0;
+
+    transition:
+        transform .6s ease,
+        opacity .6s ease,
+        box-shadow .35s ease;
+
+}
+
+    .card0:hover{
+    transform:translateX(-360px) translateY(-20px) rotate(-22deg) scale(1.05);
+}
+
+.card1:hover{
+    transform:translateX(-240px) translateY(-20px) rotate(-14deg) scale(1.05);
+}
+
+.card2:hover{
+    transform:translateX(-120px) translateY(-20px) rotate(-7deg) scale(1.05);
+}
+
+.card3:hover{
+    transform:translateX(0) translateY(-20px) scale(1.05);
+}
+
+.card4:hover{
+    transform:translateX(120px) translateY(-20px) rotate(7deg) scale(1.05);
+}
+
+.card5:hover{
+    transform:translateX(240px) translateY(-20px) rotate(14deg) scale(1.05);
+}
+
+.card6:hover{
+    transform:translateX(360px) translateY(-20px) rotate(22deg) scale(1.05);
+}
+/* =====================================================
+   REVEAL SECTION
+===================================================== */
+
+#revealSection{
+
+    display:none;
+
+    width:100%;
+
+    max-width:900px;
+
+    margin:70px auto 120px;
+
+    padding:0 20px;
+
+    flex-direction:column;
+
+    align-items:center;
+
+    justify-content:center;
+
+    animation:revealFade .8s ease;
+
+}
+
+
+/* =====================================================
+   REVEAL CARD
+===================================================== */
+
+#selectedCard{
+
+    width:280px;
+
+    border-radius:22px;
+
+    overflow:hidden;
+
+    background:#111;
+
+    box-shadow:
+
+        0 30px 70px rgba(0,0,0,.55),
+
+        0 0 35px rgba(226,43,30,.22);
+
+    transition:
+
+        transform .4s ease,
+
+        box-shadow .4s ease;
+
+}
+
+#selectedCard:hover{
+
+    transform:translateY(-8px);
+
+    box-shadow:
+
+        0 35px 80px rgba(0,0,0,.6),
+
+        0 0 50px rgba(226,43,30,.35);
+
+}
+
+#selectedCard img{
+
+    display:block;
+
+    width:100%;
+
+}
+
+
+/* =====================================================
+   TITLE
+===================================================== */
+
+#cardTitle{
+
+    margin-top:28px;
+
+    font-family:'Cinzel',serif;
+
+    font-size:42px;
+
+    letter-spacing:3px;
+
+    text-align:center;
+
+    color:white;
+
+}
+
+
+/* =====================================================
+   REWARD
+===================================================== */
+
+#rewardTitle{
+
+    margin-top:10px;
+
+    color:#D8B46A;
+
+    font-size:30px;
+
+    font-weight:600;
+
+    text-align:center;
+
+}
+
+
+/* =====================================================
+   MESSAGE BOX
+===================================================== */
+
+#fortuneText{
+
+    margin-top:28px;
+
+    width:min(700px,90%);
+
+    padding:26px 32px;
+
+    border-radius:20px;
+
+    text-align:center;
+
+    font-size:25px;
+
+    line-height:1.8;
+
+    color:#ECECEC;
+
+    background:
+
+        rgba(255,255,255,.05);
+
+    border:
+
+        1px solid rgba(255,255,255,.12);
+
+    backdrop-filter:
+
+        blur(10px);
+
+    box-shadow:
+
+        0 15px 35px rgba(0,0,0,.28);
+
+}
+
+
+/* =====================================================
+   BUTTON
+===================================================== */
+
+#restartBtn{
+
+    margin-top:35px;
+
+    padding:
+
+        15px 42px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:
+
+        linear-gradient(
+
+            135deg,
+
+            #8F101D,
+
+            #C81E2D
+
+        );
+
+    color:white;
+
+    font-family:'Cinzel',serif;
+
+    font-size:18px;
+
+    letter-spacing:2px;
+
+    cursor:pointer;
+
+    transition:
+
+        .35s;
+
+    box-shadow:
+
+        0 0 20px rgba(226,43,30,.28);
+
+}
+
+#restartBtn:hover{
+
+    transform:
+
+        translateY(-4px);
+
+    box-shadow:
+
+        0 0 35px rgba(226,43,30,.45);
+
+}
+
+#restartBtn:active{
+
+    transform:scale(.96);
+
+}
+
+
+/* =====================================================
+   STAR EXPLOSION
+===================================================== */
+
+#starExplosion{
+
+    position:fixed;
+
+    inset:0;
+
+    pointer-events:none;
+
+    overflow:hidden;
+
+    z-index:99999;
+
+}
+
+.magic-star{
+
+    position:absolute;
+
+    color:white;
+
+    opacity:1;
+
+    font-size:20px;
+
+    text-shadow:
+
+        0 0 10px white,
+
+        0 0 25px #E62B1E;
+
+    animation:
+
+        starBurst 1.2s forwards;
+
+}
+
+
+/* =====================================================
+   REVEAL ANIMATION
+===================================================== */
+
+@keyframes revealFade{
+
+    from{
+
+        opacity:0;
+
+        transform:
+
+            translateY(40px);
+
+    }
+
+    to{
+
+        opacity:1;
+
+        transform:
+
+            translateY(0);
+
+    }
+
+}
+
+
+/* =====================================================
+   STAR BURST
+===================================================== */
+
+@keyframes starBurst{
+
+    0%{
+
+        opacity:1;
+
+        transform:
+
+            translate(0,0)
+
+            scale(.3)
+
+            rotate(0deg);
+
+    }
+
+    100%{
+
+        opacity:0;
+
+        transform:
+
+            translate(
+
+                var(--x),
+
+                var(--y)
+
+            )
+
+            scale(2)
+
+            rotate(360deg);
+
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE
+===================================================== */
+
+@media(max-width:900px){
+
+    #selectedCard{
+
+        width:220px;
+
+    }
+
+    #cardTitle{
+
+        font-size:32px;
+
+    }
+
+    #rewardTitle{
+
+        font-size:24px;
+
+    }
+
+    #fortuneText{
+
+        font-size:20px;
+
+        padding:22px;
+
+    }
+
+}
+
+
+@media(max-width:600px){
+
+    header h1{
+
+        font-size:38px;
+
+    }
+
+    header p{
+
+        font-size:18px;
+
+    }
+
+    #selectedCard{
+
+        width:180px;
+
+    }
+
+    #cardTitle{
+
+        font-size:28px;
+
+    }
+
+    #rewardTitle{
+
+        font-size:20px;
+
+    }
+
+    #fortuneText{
+
+        font-size:18px;
+
+        line-height:1.6;
+
+        width:95%;
+
+    }
+
+}
+  </style>
+
+  
+</head>
+<body>
+  <!-- Fonts -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Cormorant+Garamond:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="style.css">
+
+
+
+
+
+    <!-- ===========================
+         BACKGROUND
+    ============================ -->
+
+    <div id="background">
+
+        <div id="stars"></div>
+
+        <div id="glow"></div>
+
+        <div id="magicParticles"></div>
+
+    </div>
+
+
+
+    <!-- ===========================
+         HEADER
+    ============================ -->
+
+    <header>
+
+        <h1>Wheel of Fortune</h1>
+
+        <p>
+
+            Choose your fate.
+
+        </p>
+
+    </header>
+
+
+
+    <!-- ===========================
+         MAIN
+    ============================ -->
+
+    <main>
+
+
+
+        <!-- ===========================
+             DECK
+        ============================ -->
+
+        <section id="deckSection">
+
+            <div id="deckContainer">
+
+                <img
+                    id="deckBack1"
+                    class="deckCard"
+                    src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/9da4d315f6769a92a58d8c01e95e1df47a5ecb5e/8642f97614389f82e30c3cd7008e716c.jpg">
+
+                <img
+                    id="deckBack2"
+                    class="deckCard"
+                    src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/9da4d315f6769a92a58d8c01e95e1df47a5ecb5e/8642f97614389f82e30c3cd7008e716c.jpg">
+
+                <img
+                    id="deckBack3"
+                    class="deckCard"
+                    src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/9da4d315f6769a92a58d8c01e95e1df47a5ecb5e/8642f97614389f82e30c3cd7008e716c.jpg">
+
+            </div>
+
+
+
+        </section>
+
+
+
+        <!-- ===========================
+             CARD SPREAD
+        ============================ -->
+
+        <section id="spreadSection">
+
+            <!-- JS creates 7 cards -->
+
+        </section>
+
+
+
+        <!-- ===========================
+             REVEAL
+        ============================ -->
+
+        <section id="revealSection">
+
+
+
+            <div id="selectedCard">
+
+                <img id="selectedImage">
+
+            </div>
+
+
+
+            <h2 id="cardTitle">
+
+                THE STAR
+
+            </h2>
+
+
+
+            <h3 id="rewardTitle">
+
+                15% Voucher
+
+            </h3>
+
+
+
+            <p id="fortuneText">
+
+                Your wish shines a little brighter.
+
+            </p>
+
+
+
+            <button id="restartBtn">
+
+                Draw Again
+
+            </button>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ===========================
+         MAGIC STARS
+    ============================ -->
+
+    <div id="starExplosion"></div>
+
+
+
+    <!-- ===========================
+         AUDIO
+    ============================ -->
+
+    <audio
+        id="shuffleSound"
+        preload="auto"
+        src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/afx_photography-page-shuffle-transition-429869.mp3">
+    </audio>
+
+
+
+    <audio
+        id="flipSound"
+        preload="auto"
+        src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/freesound_community-flipcard-91468.mp3">
+    </audio>
+
+
+
+    <audio
+        id="magicSound"
+        preload="auto"
+        src="https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/fe77ae6f1bfa4adf25da30337d280c2ffabb5b00/freesound_community-magic-wand-6214.mp3">
+    </audio>
+
+
+
+    <script src="script.js"></script>
+
+
+</div>
+
+  <script>
+    /* ===========================================================
+   WHEEL OF FORTUNE - TAROT EDITION
+   PART 1
+   DOM • AUDIO • DATABASE • GAME STATE • HELPERS
+===========================================================*/
+
+
+/* ===========================================================
+   DOM
+===========================================================*/
+
+const deckSection =
+    document.getElementById("deckSection");
+
+const deckContainer =
+    document.getElementById("deckContainer");
+
+const spreadSection =
+    document.getElementById("spreadSection");
+
+const revealSection =
+    document.getElementById("revealSection");
+
+const selectedImage =
+    document.getElementById("selectedImage");
+
+const cardTitle =
+    document.getElementById("cardTitle");
+
+const rewardTitle =
+    document.getElementById("rewardTitle");
+
+const fortuneText =
+    document.getElementById("fortuneText");
+
+const restartBtn =
+    document.getElementById("restartBtn");
+
+const starExplosion =
+    document.getElementById("starExplosion");
+
+
+/* ===========================================================
+   AUDIO
+===========================================================*/
+
+const shuffleSound =
+    document.getElementById("shuffleSound");
+
+const flipSound =
+    document.getElementById("flipSound");
+
+const magicSound =
+    document.getElementById("magicSound");
+
+
+shuffleSound.volume = .75;
+flipSound.volume = .85;
+magicSound.volume = .85;
+
+
+/* ===========================================================
+   ANIMATION TIME
+===========================================================*/
+
+const SHUFFLE_TIME = 1200;
+const MOVE_TIME = 700;
+const FLIP_TIME = 450;
+const MAGIC_TIME = 700;
+
+
+/* ===========================================================
+   CARD BACK
+===========================================================*/
+
+const CARD_BACK =
+"https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/9da4d315f6769a92a58d8c01e95e1df47a5ecb5e/8642f97614389f82e30c3cd7008e716c.jpg";
+
+
+/* ===========================================================
+   TAROT DATABASE
+===========================================================*/
+
+const tarotDatabase = [
+
+{
+
+    title:"THE ANCHOR",
+
+    reward:"🗝️ Keychain",
+
+    fortune:
+    "A small charm to remind you that every journey begins with something worth holding onto.",
+
+    image:
+    "https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/7bcbb3ab8c279a617e4bd709a69fe49a5e9c45ad/8dc06178-5cbf-4fcb-a317-7ad3141799f4.png"
+
+},
+
+{
+
+    title:"THE HARVEST",
+
+    reward:"🍪 Snack",
+
+    fortune:
+    "Small joys often arrive quietly. Enjoy this little harvest before chasing the next adventure.",
+
+    image:
+    "https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/c5ebeb4e-0f5c-4dee-a6d4-b9cfdcd017c4.png"
+
+},
+
+{
+
+    title:"THE SPARK",
+
+    reward:"🎟️ 5% Voucher",
+
+    fortune:
+    "Every great fortune begins with a single spark. Today is only the beginning.",
+
+    image:
+    "https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/8fbfdfe8-e76e-48ba-ac69-ae3f0e8184a5.png"
+
+},
+
+{
+
+    title:"THE WHEEL",
+
+    reward:"🎟️ 5% Voucher",
+
+    fortune:
+    "Fortune keeps turning. This time, it stopped for you.",
+
+    image:"https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/8fbfdfe8-e76e-48ba-ac69-ae3f0e8184a5.png"
+
+},
+
+
+{
+
+    title:"The Harvest",
+
+    reward:"🍪 Snack",
+
+    fortune:
+    "A little treat appears when you need it most. Savor the moment—small joys are lucky too.",
+
+    image:"https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/main/c5ebeb4e-0f5c-4dee-a6d4-b9cfdcd017c4.png"
+
+},
+
+{
+
+    title:"The Anchor",
+
+    reward:"🗝️ Keychain",
+
+    fortune:
+    "A small charm to remind you: the best journeys begin when you know where home is.",
+
+    image:"https://raw.githubusercontent.com/vbihnn/P-Pportunity.tedx/7bcbb3ab8c279a617e4bd709a69fe49a5e9c45ad/8dc06178-5cbf-4fcb-a317-7ad3141799f4.png"
+
+}
+
+];
+
+
+/* ===========================================================
+   GAME STATE
+===========================================================*/
+
+let gameCards = [];
+
+let deckOpened = false;
+
+let playerPicked = false;
+
+let chosenCard = null;
+
+let isAnimating = false;
+
+
+/* ===========================================================
+   PRELOAD
+===========================================================*/
+
+function preloadImages(){
+
+    tarotDatabase.forEach(card=>{
+
+        const img = new Image();
+
+        img.src = card.image;
+
+    });
+
+}
+
+
+/* ===========================================================
+   SHUFFLE ARRAY
+===========================================================*/
+
+function shuffleArray(array){
+
+    for(
+
+        let i=array.length-1;
+
+        i>0;
+
+        i--
+
+    ){
+
+        const j =
+            Math.floor(Math.random()*(i+1));
+
+        [
+
+            array[i],
+
+            array[j]
+
+        ]=[
+
+            array[j],
+
+            array[i]
+
+        ];
+
+    }
+
+}
+
+
+/* ===========================================================
+   BUILD GAME DECK
+===========================================================*/
+
+function buildDeck(){
+
+    gameCards = [...tarotDatabase];
+
+    shuffleArray(gameCards);
+
+}
+
+
+/* ===========================================================
+   PLAY SOUND
+===========================================================*/
+
+function playSound(audio,duration){
+
+    audio.pause();
+
+    audio.currentTime = 0;
+
+    audio.play();
+
+    if(duration){
+
+        setTimeout(()=>{
+
+            audio.pause();
+
+            audio.currentTime = 0;
+
+        },duration);
+
+    }
+
+}
+
+
+/* ===========================================================
+   RESET GAME
+===========================================================*/
+
+function resetGameState(){
+
+    deckOpened = false;
+
+    playerPicked = false;
+
+    chosenCard = null;
+
+    isAnimating = false;
+
+}
+
+
+/* ===========================================================
+   START
+===========================================================*/
+
+function init(){
+
+    preloadImages();
+
+    buildDeck();
+
+    resetGameState();
+
+    revealSection.style.display="none";
+
+    spreadSection.style.display="none";
+
+}
+
+init();
+/* ===========================================================
+   PART 2
+   BUILD DECK
+===========================================================*/
+
+
+
+/* ===========================================================
+   START SHUFFLE
+===========================================================*/
+
+deckContainer.addEventListener(
+    "click",
+    startShuffle
+);
+
+function startShuffle(){
+
+    if(deckOpened) return;
+
+    deckOpened = true;
+
+    shuffleSound.currentTime = 0;
+    shuffleSound.play();
+
+    deckContainer.classList.add("shuffle");
+
+    setTimeout(()=>{
+
+        deckSection.style.display = "none";
+
+        spreadSection.style.display = "flex";
+
+        createSpread();
+
+    },1100);
+
+}
+
+
+/* ===========================================================
+   CREATE SPREAD
+===========================================================*/
+
+function createSpread(){
+
+    spreadSection.innerHTML = "";
+
+    const fan = [
+
+        "card0",
+        "card1",
+        "card2",
+        "card3",
+        "card4",
+        "card5",
+        "card6"
+
+    ];
+
+    gameCards.forEach((reward,index)=>{
+
+        const card =
+            document.createElement("div");
+
+        card.className =
+            `tarot-card ${fan[index]}`;
+
+        card.dataset.index = index;
+
+        card.innerHTML =
+
+        `
+            <div class="card-inner">
+
+                <div class="card-back">
+
+                    <img
+                        src="${CARD_BACK}"
+                        draggable="false"
+                    >
+
+                </div>
+
+                <div class="card-front">
+
+                    <img
+                        src="${reward.image}"
+                        draggable="false"
+                    >
+
+                </div>
+
+            </div>
+        `;
+
+        card.style.opacity = "0";
+        card.style.pointerEvents = "none";
+
+        spreadSection.appendChild(card);
+
+    });
+
+    animateSpread();
+
+}
+
+
+/* ===========================================================
+   ANIMATE FAN
+===========================================================*/
+
+function animateSpread(){
+
+    const cards=document.querySelectorAll(".tarot-card");
+
+    cards.forEach((card,index)=>{
+
+        setTimeout(()=>{
+
+            card.style.opacity="1";
+
+        },index*120);
+
+    });
+
+    setTimeout(()=>{
+
+        enableCardSelection();
+
+    },cards.length*120+400);
+
+}
+
+
+
+/* ===========================================================
+   ENABLE PICK
+===========================================================*/
+
+function enableCardSelection(){
+
+    document
+        .querySelectorAll(".tarot-card")
+        .forEach(card=>{
+
+            card.style.pointerEvents =
+                "auto";
+
+            card.addEventListener(
+                "click",
+                selectCard
+            );
+
+        });
+
+}
+
+
+/* ===========================================================
+   RESET GAME
+===========================================================*/
+
+function restartGame(){
+
+    playerPicked = false;
+    deckOpened = false;
+    chosenCard = null;
+
+    revealSection.style.display = "none";
+
+    spreadSection.style.display = "none";
+
+    deckSection.style.display = "flex";
+
+    deckContainer.classList.remove(
+        "shuffle"
+    );
+
+
+}
+
+
+/* ===========================================================
+   INIT
+===========================================================*/
+
+buildDeck();
+/* ===========================================================
+   PART 3
+   SELECT CARD
+===========================================================*/
+
+function selectCard(e){
+
+    if(playerPicked) return;
+
+    playerPicked = true;
+
+    chosenCard = e.currentTarget;
+
+    const reward =
+        gameCards[
+            Number(chosenCard.dataset.index)
+        ];
+
+    moveChosenCard(
+        chosenCard,
+        reward
+    );
+
+}
+
+
+/* ===========================================================
+   MOVE CARD TO CENTER
+===========================================================*/
+
+function moveChosenCard(card,reward){
+
+    const cards =
+        document.querySelectorAll(".tarot-card");
+
+    cards.forEach(c=>{
+
+        if(c!==card){
+
+            c.classList.add("fade");
+
+        }
+
+    });
+
+    document.querySelector("header")
+        .classList.add("fadeHeader");
+
+    flipSound.currentTime = 0;
+    flipSound.play();
+
+    const rect =
+        card.getBoundingClientRect();
+
+    const centerX =
+        window.innerWidth/2 -
+        rect.width/2;
+
+    const centerY =
+        window.innerHeight*.33 -
+        rect.height/2;
+
+    card.style.position="fixed";
+
+    card.style.left =
+        rect.left+"px";
+
+    card.style.top =
+        rect.top+"px";
+
+    card.style.margin="0";
+
+    card.style.zIndex="999";
+
+    card.classList.add("selected");
+
+    requestAnimationFrame(()=>{
+
+        card.style.left =
+            centerX+"px";
+
+        card.style.top =
+            centerY+"px";
+
+        card.style.transform =
+            "scale(1.2)";
+
+    });
+
+    setTimeout(()=>{
+
+        flipCard(
+            card,
+            reward
+        );
+
+    },650);
+
+}
+
+
+/* ===========================================================
+   FLIP CARD
+===========================================================*/
+
+function flipCard(card,reward){
+
+    const inner =
+        card.querySelector(".card-inner");
+
+    inner.style.transition =
+        "transform .55s ease";
+
+    inner.style.transform =
+        "rotateY(180deg)";
+
+    flipSound.pause();
+
+    flipSound.currentTime=.45;
+
+    setTimeout(()=>{
+
+        flipSound.pause();
+
+    },120);
+
+    setTimeout(()=>{
+
+        magicSound.currentTime=0;
+        magicSound.play();
+
+        revealReward(reward);
+
+    },600);
+
+}
+/* ===========================================================
+   PART 4
+   REVEAL REWARD
+===========================================================*/
+
+function revealReward(reward){
+
+    selectedImage.src = reward.image;
+
+    cardTitle.textContent =
+        reward.title;
+
+    rewardTitle.textContent =
+        reward.reward;
+
+    fortuneText.textContent =
+        reward.fortune;
+
+    revealSection.style.display =
+        "flex";
+
+    revealSection.animate(
+
+        [
+
+            {
+                opacity:0,
+                transform:"translateY(60px)"
+            },
+
+            {
+                opacity:1,
+                transform:"translateY(0)"
+            }
+
+        ],
+
+        {
+
+            duration:700,
+            easing:"ease-out",
+            fill:"forwards"
+
+        }
+
+    );
+
+    createStarExplosion();
+
+    setTimeout(()=>{
+
+        revealSection.scrollIntoView({
+
+            behavior:"smooth",
+            block:"center"
+
+        });
+
+    },250);
+
+}
+
+
+/* ===========================================================
+   STAR EXPLOSION
+===========================================================*/
+
+function createStarExplosion(){
+
+    starExplosion.innerHTML = "";
+
+    const icons = [
+
+        "✦",
+        "✧",
+        "★",
+        "⭐"
+
+    ];
+
+    const centerX =
+        window.innerWidth/2;
+
+    const centerY =
+        window.innerHeight*.33;
+
+    for(let i=0;i<45;i++){
+
+        const star =
+            document.createElement("div");
+
+        star.className =
+            "magic-star";
+
+        star.textContent =
+            icons[
+                Math.floor(
+                    Math.random()*icons.length
+                )
+            ];
+
+        star.style.left =
+            centerX+"px";
+
+        star.style.top =
+            centerY+"px";
+
+        const angle =
+            Math.random()*360;
+
+        const distance =
+            120+
+            Math.random()*180;
+
+        const x =
+            Math.cos(
+                angle*Math.PI/180
+            )*distance;
+
+        const y =
+            Math.sin(
+                angle*Math.PI/180
+            )*distance;
+
+        star.style.setProperty(
+            "--x",
+            x+"px"
+        );
+
+        star.style.setProperty(
+            "--y",
+            y+"px"
+        );
+
+        star.style.fontSize =
+            18+
+            Math.random()*18+
+            "px";
+
+        star.style.animationDuration =
+            .8+
+            Math.random()*.6+
+            "s";
+
+        starExplosion.appendChild(star);
+
+    }
+
+    setTimeout(()=>{
+
+        starExplosion.innerHTML="";
+
+    },1700);
+
+}
+
+
+/* ===========================================================
+   DRAW AGAIN
+===========================================================*/
+
+restartBtn.addEventListener(
+
+    "click",
+
+    restartGame
+
+);
+
+function restartGame(){
+
+    playerPicked = false;
+
+    deckOpened = false;
+
+    chosenCard = null;
+
+    revealSection.style.display =
+        "none";
+
+    spreadSection.innerHTML = "";
+
+    spreadSection.style.display =
+        "none";
+
+    deckSection.style.display =
+        "flex";
+
+    document
+        .querySelector("header")
+        .classList.remove(
+            "fadeHeader"
+        );
+
+    deckContainer.classList.remove(
+        "shuffle"
+    );
+
+    buildDeck();
+
+    window.scrollTo({
+
+        top:0,
+
+        behavior:"smooth"
+
+    });
+
+}
+
+
+/* ===========================================================
+   SPACE = DRAW AGAIN
+===========================================================*/
+
+document.addEventListener(
+
+    "keydown",
+
+    e=>{
+
+        if(
+
+            e.code==="Space" &&
+
+            revealSection.style.display==="flex"
+
+        ){
+
+            restartGame();
+
+        }
+
+    }
+
+);
+  </script>
+</body>
+</html>
